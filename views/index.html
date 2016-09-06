@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8> <meta content="IE=edge" http-equiv=X-UA-Compatible>
+    <meta content="width=device-width,initial-scale=1" name=viewport>
+    <title>AirVantage USSD Tests</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AirVantage USSD Tests</h1>
+        <span id="status-icon" class="glyphicon glyphicon-remove-circle"></span> <span id="status">Not connected</span>
+        <div id="nbClients" class="text-right"></div>
+        <hr>
+        <br/>
+        <div id="ussd-list">
+            <h4 class="text-center"><span class="glyphicon glyphicon-option-horizontal"></span> Waiting for USSD to be posted</h4>
+        </div>
+    </div>
+
+    <!--
+        Required external libraries
+    -->
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js" integrity="sha256-De/cgZoAkgvqoxL9yJpJzPHyozUETFnSv7EQGfQWQ4o=" crossorigin="anonymous"></script>
+
+    <!--
+     Handlebar template to display an USSD and its details
+    -->
+    <script id="ussd-template" type="text/x-handlebars-template">
+      <div class="well">
+        <span class="badge pull-right">{{when}}</span>
+        <br>
+         {{rawUSSD}}
+      </div>
+    </script>
+
+    <!--
+        Where all the magic happens ;)
+    -->
+    <script>
+        // Compile the handlebar template
+        var renderUSSD = Handlebars.compile($("#ussd-template").html());
+
+
+        function updateNbClients(nbClients) {
+            $("#nbClients").text(nbClients + " watcher(s)");
+        }
+
+        // Connect to the server providing the token to be able to get more info about the alerts
+        var socket = io('/');
+
+        // When connected
+        socket.on("welcome", function(nbClients) {
+            console.log("Connected");
+            $("#status").text("Connected");
+            $("#status-icon").removeClass("glyphicon-remove-circle").addClass("glyphicon-ok-circle");
+            updateNbClients(nbClients);
+        });
+
+        socket.on("updateNbClients", updateNbClients);
+
+        // When alerts are triggered
+        socket.on('ussd', function (ussd) {
+            // Build the context to pass to the Handlebars template
+            var ussdViewContext =  {
+                rawUSSD: JSON.stringify(ussd.content),
+                when: moment().format("MMMM Do YYYY, h:mm:ss a")
+            };
+
+            // Remove "welcome" message
+            $("#ussd-list>h4").remove();
+
+            // Render the ussd
+            $("#ussd-list").prepend(renderUSSD(ussdViewContext));
+        });
+
+        window.onbeforeunload = function() {
+            socket.emit("disconnect");
+        };
+    </script>
+</body>
+</html>
+
+
