@@ -1,4 +1,4 @@
-# airvantage-ussd
+# ussd-demo
 Simple nodejs web application to receive USSD
 
 ## Getting started
@@ -6,7 +6,7 @@ Simple nodejs web application to receive USSD
 
 1. Install the dependencies `npm i`
 2. Start the server `npm start`
-3. Go to http://localhost:3000/ and prepare to watch the USSD coming
+3. Go to [http://localhost:3000/](http://localhost:3000/) and prepare to watch the USSD coming
 4. Test by posting content on http://localhost:3000/
      
   ```bash
