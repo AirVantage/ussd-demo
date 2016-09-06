@@ -1,5 +1,5 @@
 # ussd-demo
-Simple nodejs web application to receive USSD
+Simple nodejs web application demonstrating USSD usage
 
 ## Getting started
 > :bulb: Nodejs >= 4.x required
