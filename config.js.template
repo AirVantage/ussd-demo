@@ -1,0 +1,8 @@
+module.exports = {
+    network: {
+        login: "SOAP_API_LOGIN",
+        password: "SOAP_API_PWD",
+        phoneNumber: "",
+        encoding: 15
+    }
+}

@@ -3,20 +3,31 @@
 <head>
     <meta charset=utf-8> <meta content="IE=edge" http-equiv=X-UA-Compatible>
     <meta content="width=device-width,initial-scale=1" name=viewport>
-    <title>AirVantage USSD Tests</title>
+    <title>AirVantage USSD Demo</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style type="text/css">
+        .session-status-icon {
+            font-size: 20px!important;
+        }
+        .btn-swir,.btn-swir:hover,.btn-swir:focus {
+            background-color: #E53B30;
+            color: white;
+        }
     </style>
+    <script src="https://use.fontawesome.com/2ab00ba0b6.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>AirVantage USSD Tests</h1>
+        <h1>AirVantage USSD Demo</h1>
         <span id="status-icon" class="glyphicon glyphicon-remove-circle"></span> <span id="status">Not connected</span>
         <div id="nbClients" class="text-right"></div>
         <hr>
+        <div>
+            <button id="temperatureBtn" class="btn btn-swir">What's the temperature?</button>
+        </div>
         <br/>
         <div id="ussd-list">
-            <h4 class="text-center"><span class="glyphicon glyphicon-option-horizontal"></span> Waiting for USSD to be posted</h4>
+            <h4 class="text-center"><span class="fa fa-clock-o"></span> Waiting for USSD to be posted</h4>
         </div>
     </div>
 
@@ -30,54 +41,123 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js" integrity="sha256-De/cgZoAkgvqoxL9yJpJzPHyozUETFnSv7EQGfQWQ4o=" crossorigin="anonymous"></script>
 
     <!--
+     Handlebar template to display an USSD session
+    -->
+    <script id="ussd-session-container-template" type="text/x-handlebars-template">
+      <div id="{{sessionId}}" class="well">
+        <i class="fa fa-clock-o pull-left session-status-icon" aria-hidden="true"></i>
+        <span>{{title}}</span>
+        <span class="label label-default pull-right">{{sessionId}}</span>
+        <br>
+        <br>
+        <span class="waiting-message">...</span>
+        <ul class="ussd-content">
+
+        </ul>
+        <small class="pull-right">{{when}}</small>
+      </div>
+    </script>
+
+    <!--
      Handlebar template to display an USSD and its details
     -->
-    <script id="ussd-template" type="text/x-handlebars-template">
-      <div class="well">
-        <span class="badge pull-right">{{when}}</span>
-        <br>
-         {{rawUSSD}}
-      </div>
+    <script id="ussd-message-template" type="text/x-handlebars-template">
+        <li>
+        {{message}}
+        </li>
     </script>
 
     <!--
         Where all the magic happens ;)
     -->
     <script>
-        // Compile the handlebar template
-        var renderUSSD = Handlebars.compile($("#ussd-template").html());
+        // Compile the handlebar templates
+        var renderUSSDSessionContainer = Handlebars.compile($("#ussd-session-container-template").html());
+        var renderUSSDMessage = Handlebars.compile($("#ussd-message-template").html());
 
+        // Connect to the server
+        var socket = io('/'),
+            ussdAppId;
+
+        // When connected
+        socket.on("welcome", function(params) {
+            console.log("Connected");
+            $("#status").text("Connected");
+            $("#status-icon").removeClass("glyphicon-remove-circle").addClass("glyphicon-ok-circle");
+            updateNbClients(params.nbClients);
+            ussdAppId = params.appId;
+        });
+
+        // When someone new arrives
+        socket.on("updateNbClients", updateNbClients);
+
+        // When the temperature has been asked
+        socket.on("temperatureAsked", function(sessionId) {
+            removeWaitingWelcomeMessage();
+
+            // Open a new session container
+            var ussdViewContext =  {
+                sessionId: sessionId,
+                when: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                title: "Asking for temperature"
+            };
+            $("#ussd-list").prepend(renderUSSDSessionContainer(ussdViewContext));
+        })
+
+        // When an USSD message is received
+        socket.on('ussd', function(ussd) {
+            console.log("### ussd", ussd);
+            var ussdSessionId = ussd.content.sessionid,
+                sessionStatus = ussd.content.status,
+                ussdstring = ussd.content.ussdstring,
+                isDeviceInitiatedSession = ussdstring === "*" + ussdAppId + "#";
+
+            removeWaitingWelcomeMessage();
+
+            // Is it a new session?
+            var sessionContainerSelector = "#" + ussdSessionId;
+            var $sessionContainer = $(sessionContainerSelector);
+            if ($sessionContainer.length === 0) {
+                // Add a new session
+                var ussdViewContext =  {
+                    sessionId: ussdSessionId,
+                    when: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                    isDeviceInitiated: isDeviceInitiatedSession,
+                    title: isDeviceInitiatedSession ? "Device initiated session" : "Ongoing session"
+                };
+                $("#ussd-list").prepend(renderUSSDSessionContainer(ussdViewContext));
+            }
+
+            // Update the session status icon
+            if(sessionStatus === "0") {
+                $(sessionContainerSelector + ">.session-status-icon")
+                    .removeClass("fa-clock-o")
+                    .addClass("fa-check-circle-o");
+            } else if (sessionStatus) {
+                $(sessionContainerSelector + ">.session-status-icon")
+                    .removeClass("fa-clock-o")
+                    .addClass("fa-times-circle-o");
+            }
+
+            // Get the session details container
+            var $sessionContent = $(sessionContainerSelector + ">.ussd-content");
+            // Remove possible wating message
+            $(sessionContainerSelector + ">.waiting-message").remove();
+            $sessionContent.append(renderUSSDMessage({
+                message: JSON.stringify(ussd.content)
+            }));
+        });
 
         function updateNbClients(nbClients) {
             $("#nbClients").text(nbClients + " watcher(s)");
         }
 
-        // Connect to the server providing the token to be able to get more info about the alerts
-        var socket = io('/');
-
-        // When connected
-        socket.on("welcome", function(nbClients) {
-            console.log("Connected");
-            $("#status").text("Connected");
-            $("#status-icon").removeClass("glyphicon-remove-circle").addClass("glyphicon-ok-circle");
-            updateNbClients(nbClients);
-        });
-
-        socket.on("updateNbClients", updateNbClients);
-
-        // When alerts are triggered
-        socket.on('ussd', function (ussd) {
-            // Build the context to pass to the Handlebars template
-            var ussdViewContext =  {
-                rawUSSD: JSON.stringify(ussd.content),
-                when: moment().format("MMMM Do YYYY, h:mm:ss a")
-            };
-
-            // Remove "welcome" message
+        function removeWaitingWelcomeMessage() {
             $("#ussd-list>h4").remove();
+        }
 
-            // Render the ussd
-            $("#ussd-list").prepend(renderUSSD(ussdViewContext));
+        $("#temperatureBtn").click(function(){
+            socket.emit("temperature");
         });
 
         window.onbeforeunload = function() {

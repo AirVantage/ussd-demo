@@ -1,0 +1,1073 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions
+    xmlns:tns="https://api.mobiquithings.com/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    name="MBQTSubscriptionService"
+    targetNamespace="https://api.mobiquithings.com/">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="https://api.mobiquithings.com/">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <xsd:complexType name="Account">
+                <xsd:all>
+                	<xsd:element name="accountId" type="xsd:string"></xsd:element>
+                	<xsd:element name="masterAccountId" type="xsd:string"></xsd:element>
+                	<xsd:element name="parentAccountId" type="xsd:string"></xsd:element>
+                	<xsd:element name="accountName" type="xsd:string"></xsd:element>
+                	<xsd:element name="accountDesc" type="xsd:string"></xsd:element>
+                	<xsd:element name="accountCat" type="xsd:string"></xsd:element>
+                	<xsd:element name="externalId" type="xsd:string"></xsd:element>
+                	<xsd:element name="externalDesc" type="xsd:string"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfAccount">
+                <xsd:sequence>
+                    <xsd:element name="account" minOccurs="0" maxOccurs="unbounded" type="tns:Account"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Offer">
+                <xsd:all>
+                	<xsd:element name="offerId" type="xsd:string"></xsd:element>
+                	<xsd:element name="offerName" type="xsd:string"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfOffer">
+                <xsd:sequence>
+                    <xsd:element name="offer" minOccurs="0" maxOccurs="unbounded" type="tns:Offer"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="OfferAddon">
+                <xsd:all>
+                	<xsd:element name="addonId" type="xsd:string"></xsd:element>
+                	<xsd:element name="addonName" type="xsd:string"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfOfferAddon">
+                <xsd:sequence>
+                    <xsd:element name="offerAddon" minOccurs="0" maxOccurs="unbounded" type="tns:OfferAddon"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Addon">
+                <xsd:all>
+                	<xsd:element name="addonId" type="xsd:string"></xsd:element>
+                	<xsd:element name="addonName" type="xsd:string"></xsd:element>
+                	<xsd:element name="statusId" type="xsd:string"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfAddon">
+                <xsd:sequence>
+                    <xsd:element name="addon" minOccurs="0" maxOccurs="unbounded" type="tns:Addon"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Contract">
+                <xsd:all>
+                	<xsd:element name="coId" type="xsd:string"></xsd:element>
+                	<xsd:element name="accountId" type="xsd:string"></xsd:element>
+                	<xsd:element name="msisdn" type="xsd:string"></xsd:element>
+                	<xsd:element name="statusId" type="xsd:string"></xsd:element>
+                	<xsd:element name="iccId" type="xsd:string"></xsd:element>
+                	<xsd:element name="pukId" type="xsd:string"></xsd:element>
+                	<xsd:element name="externalId" type="xsd:string"></xsd:element>
+                	<xsd:element name="creationDate" type="xsd:string"></xsd:element>
+                	<xsd:element name="lastStatusUpdate" type="xsd:string"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfContract">
+                <xsd:sequence>
+                    <xsd:element name="contract" minOccurs="0" maxOccurs="unbounded" type="tns:Contract"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfString">
+                <xsd:sequence>
+                    <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="KeyValue">
+                <xsd:all>
+                	<xsd:element name="id" type="xsd:string"></xsd:element>
+                	<xsd:element name="value" type="xsd:string"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfKeyValue">
+                <xsd:sequence>
+                    <xsd:element name="keyval" minOccurs="0" maxOccurs="unbounded" type="tns:KeyValue"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Delivery">
+                <xsd:all>
+                	<xsd:element name="poId" type="xsd:string"></xsd:element>
+                	<xsd:element name="poName" type="xsd:string"></xsd:element>
+                	<xsd:element name="deliveryId" type="xsd:string"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfDelivery">
+                <xsd:sequence>
+                    <xsd:element name="delivery" minOccurs="0" maxOccurs="unbounded" type="tns:Delivery"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ConsProfile">
+                <xsd:all>
+                	<xsd:element name="id" type="xsd:string"></xsd:element>
+                	<xsd:element name="name" type="xsd:string"></xsd:element>
+                	<xsd:element name="dailySelectable" type="xsd:integer"></xsd:element>
+                	<xsd:element name="monthlySelectable" type="xsd:integer"></xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfConsProfile">
+                <xsd:sequence>
+                    <xsd:element name="consProfile" minOccurs="0" maxOccurs="unbounded" type="tns:ConsProfile"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+  <wsdl:message name="loginRequest">
+  	<wsdl:part name="userLogin" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="userPwd" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserPwdRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="oldPwd" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="newPwd" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserPwdResponse">
+    <wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMasterAccountRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMasterAccountResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="masterAccountId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addAccountRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="parentAccountId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountName" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountCat" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalDesc" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addAccountResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="accountId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAccountChildrenListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="parentAccountId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAccountChildrenListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="accountList" type="tns:ArrayOfAccount"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAccountInfoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAccountInfoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="parentAccountId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountName" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountCat" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalDesc" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addCoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coName" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coCat" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="offerId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="iccId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="msisdnNationality" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="consProfile" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="consDuration" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addCoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="activateCoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="activateCoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCoInfoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCoInfoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="coName" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coCat" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="offerId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="iccId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="msisdn" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="pukId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="statusId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInternalCoIdRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInternalCoIdResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="suspendCoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="suspendCoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disconnectCoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disconnectCoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCoOfferRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="offerId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCoOfferResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOfferListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOfferListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="offerList" type="tns:ArrayOfOffer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="swapCoSimRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="iccId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="swapCoSimResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOfferAddonListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="offerId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOfferAddonListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="offerAddonList" type="tns:ArrayOfOfferAddon"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAddonParameterRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="addonId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="parameterId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="parameterValue" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAddonParameterResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="activateAddonRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="addonId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="activateAddonResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="suspendAddonRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="addonId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="suspendAddonResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disconnectAddonRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="addonId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disconnectAddonResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAddonListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAddonListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="addonList" type="tns:ArrayOfAddon"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCoProvStatusRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCoProvStatusResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="provStatusId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="addonProvStatusId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="simProvStatusId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAddonParameterInfoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="addonId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="parameterId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAddonParameterInfoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="parameterValue" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCoListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="msisdn" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="statusId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="iccId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="start" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="length" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCoListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="totalCnt" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="coList" type="tns:ArrayOfContract"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAccountRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountName" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountCat" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalDesc" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAccountResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coName" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coDesc" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coCat" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="externalDesc" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateImsiMsisdnRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateImsiMsisdnResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendSmsRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="toMsisdn" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="classId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="smsData" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendSmsResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="smsId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSmsStatusRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="smsId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSmsStatusResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="statusId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSimListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="offerId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSimListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="simList" type="tns:ArrayOfString"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pushUssdRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="toMsisdn" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="ussdString" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="appId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="notification" type="xsd:boolean"></wsdl:part>
+  	<wsdl:part name="final" type="xsd:boolean"></wsdl:part>
+  	<wsdl:part name="encoding" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pushUssdResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="sessionId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAddonParameterListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="addonId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="parameterList" type="tns:ArrayOfKeyValue"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAddonParameterListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeliveryListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeliveryListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="deliveryList" type="tns:ArrayOfDelivery"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeliverySimListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="deliveryId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDeliverySimListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="simList" type="tns:ArrayOfString"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sudoRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="userLogin" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sudoResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsProfileListRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConsProfileListResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  	<wsdl:part name="consProfileList" type="tns:ArrayOfConsProfile"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCoAccountRequest">
+  	<wsdl:part name="sessionAuthId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="coId" type="xsd:string"></wsdl:part>
+  	<wsdl:part name="accountId" type="xsd:string"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCoAccountResponse">
+  	<wsdl:part name="requestId" type="xsd:integer"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="MBQTSubscriptionService">
+    <wsdl:operation name="login">
+    	<wsdl:input message="tns:loginRequest"></wsdl:input>
+    	<wsdl:output message="tns:loginResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserPwd">
+    	<wsdl:input message="tns:updateUserPwdRequest"></wsdl:input>
+    	<wsdl:output message="tns:updateUserPwdResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMasterAccount">
+    	<wsdl:input message="tns:getMasterAccountRequest"></wsdl:input>
+    	<wsdl:output message="tns:getMasterAccountResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addAccount">
+    	<wsdl:input message="tns:addAccountRequest"></wsdl:input>
+    	<wsdl:output message="tns:addAccountResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAccount">
+    	<wsdl:input message="tns:updateAccountRequest"></wsdl:input>
+    	<wsdl:output message="tns:updateAccountResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountChildrenList">
+    	<wsdl:input message="tns:getAccountChildrenListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getAccountChildrenListResponse"></wsdl:output>
+        </wsdl:operation>
+    <wsdl:operation name="getAccountInfo">
+    	<wsdl:input message="tns:getAccountInfoRequest"></wsdl:input>
+    	<wsdl:output message="tns:getAccountInfoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addCo">
+    	<wsdl:input message="tns:addCoRequest"></wsdl:input>
+    	<wsdl:output message="tns:addCoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="activateCo">
+    	<wsdl:input message="tns:activateCoRequest"></wsdl:input>
+    	<wsdl:output message="tns:activateCoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCo">
+    	<wsdl:input message="tns:updateCoRequest"></wsdl:input>
+    	<wsdl:output message="tns:updateCoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCoInfo">
+    	<wsdl:input message="tns:getCoInfoRequest"></wsdl:input>
+    	<wsdl:output message="tns:getCoInfoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInternalCoId">
+    	<wsdl:input message="tns:getInternalCoIdRequest"></wsdl:input>
+    	<wsdl:output message="tns:getInternalCoIdResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="suspendCo">
+    	<wsdl:input message="tns:suspendCoRequest"></wsdl:input>
+    	<wsdl:output message="tns:suspendCoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disconnectCo">
+    	<wsdl:input message="tns:disconnectCoRequest"></wsdl:input>
+    	<wsdl:output message="tns:disconnectCoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCoOffer">
+    	<wsdl:input message="tns:updateCoOfferRequest"></wsdl:input>
+    	<wsdl:output message="tns:updateCoOfferResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOfferList">
+    	<wsdl:input message="tns:getOfferListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getOfferListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="swapCoSim">
+    	<wsdl:input message="tns:swapCoSimRequest"></wsdl:input>
+    	<wsdl:output message="tns:swapCoSimResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOfferAddonList">
+    	<wsdl:input message="tns:getOfferAddonListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getOfferAddonListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAddonParameter">
+    	<wsdl:input message="tns:updateAddonParameterRequest"></wsdl:input>
+    	<wsdl:output message="tns:updateAddonParameterResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="activateAddon">
+    	<wsdl:input message="tns:activateAddonRequest"></wsdl:input>
+    	<wsdl:output message="tns:activateAddonResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="suspendAddon">
+    	<wsdl:input message="tns:suspendAddonRequest"></wsdl:input>
+    	<wsdl:output message="tns:suspendAddonResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="disconnectAddon">
+    	<wsdl:input message="tns:disconnectAddonRequest"></wsdl:input>
+    	<wsdl:output message="tns:disconnectAddonResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddonList">
+    	<wsdl:input message="tns:getAddonListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getAddonListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCoProvStatus">
+    	<wsdl:input message="tns:getCoProvStatusRequest"></wsdl:input>
+    	<wsdl:output message="tns:getCoProvStatusResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAddonParameterInfo">
+    	<wsdl:input message="tns:getAddonParameterInfoRequest"></wsdl:input>
+    	<wsdl:output message="tns:getAddonParameterInfoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCoList">
+    	<wsdl:input message="tns:getCoListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getCoListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendSms">
+    	<wsdl:input message="tns:sendSmsRequest"></wsdl:input>
+    	<wsdl:output message="tns:sendSmsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSmsStatus">
+    	<wsdl:input message="tns:getSmsStatusRequest"></wsdl:input>
+    	<wsdl:output message="tns:getSmsStatusResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSimList">
+    	<wsdl:input message="tns:getSimListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getSimListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pushUssd">
+    	<wsdl:input message="tns:pushUssdRequest"></wsdl:input>
+    	<wsdl:output message="tns:pushUssdResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAddonParameterList">
+    	<wsdl:input message="tns:updateAddonParameterListRequest"></wsdl:input>
+    	<wsdl:output message="tns:updateAddonParameterListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeliveryList">
+    	<wsdl:input message="tns:getDeliveryListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getDeliveryListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeliverySimList">
+    	<wsdl:input message="tns:getDeliverySimListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getDeliverySimListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sudo">
+    	<wsdl:input message="tns:sudoRequest"></wsdl:input>
+    	<wsdl:output message="tns:sudoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getConsProfileList">
+    	<wsdl:input message="tns:getConsProfileListRequest"></wsdl:input>
+    	<wsdl:output message="tns:getConsProfileListResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCoAccount">
+    	<wsdl:input message="tns:updateCoAccountRequest"></wsdl:input>
+    	<wsdl:output message="tns:updateCoAccountResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MBQTSubscriptionServiceSOAP"
+  	type="tns:MBQTSubscriptionService">
+  	<soap:binding style="rpc"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="login">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/login" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="updateUserPwd">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/updateUserPwd" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getMasterAccount">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getMasterAccount" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="addAccount">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/addAccount" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="updateAccount">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/updateAccount" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getAccountChildrenList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getAccountChildrenList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getAccountInfo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getAccountInfo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="addCo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/addCo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="activateCo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/activateCo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="updateCo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/updateCo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getCoInfo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getCoInfo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getInternalCoId">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getInternalCoId" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="suspendCo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/suspendCo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="disconnectCo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/disconnectCo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="updateCoOffer">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/updateCoOffer" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getOfferList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getOfferList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="swapCoSim">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/swapCoSim" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getOfferAddonList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getOfferAddonList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="updateAddonParameter">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/updateAddonParameter" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="activateAddon">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/activateAddon" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="suspendAddon">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/suspendAddon" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="disconnectAddon">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/disconnectAddon" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getAddonList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getAddonList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getCoProvStatus">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getCoProvStatus" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getAddonParameterInfo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getAddonParameterInfo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getCoList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getCoList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="sendSms">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/sendSms" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getSmsStatus">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getSmsStatus" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getSimList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getSimList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="pushUssd">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/pushUssd" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="updateAddonParameterList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/updateAddonParameterList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getDeliveryList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getDeliveryList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getDeliverySimList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getDeliverySimList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="sudo">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/sudo" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="getConsProfileList">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/getConsProfileList" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="updateCoAccount">
+  		<soap:operation
+  			soapAction="https://api.mobiquithings.com/updateCoAccount" />
+  		<wsdl:input>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"
+  				namespace="https://api.mobiquithings.com/" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MBQTSubscriptionService">
+    <wsdl:documentation>
+
+                         MobiquiThings, Inc.
+                Copyright 2015 All Rights Reserved.
+
+    These computer program listings and specifications, herein,
+    are the property of MobiquiThings, Inc. and shall not be
+    reproduced or copied or used in whole or in part as the basis
+    for manufacture or sale of items without written permission.
+
+    MobiquiThings Subscription API v11.2.10
+
+    </wsdl:documentation>
+    <wsdl:port binding="tns:MBQTSubscriptionServiceSOAP" name="MBQTSubscriptionServiceSOAP">
+      <soap:address location="https://api.mobiquithings.com/soap?service=MBQTSubscriptionService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
